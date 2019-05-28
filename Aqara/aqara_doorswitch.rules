@@ -1,0 +1,18 @@
+/*
+ * Codesnippets for Aqara Door/Window Switch in OpenHAB2 
+ *
+ * 2019 Florian Brandner
+ * Public Domain, free to use in any way you like
+
+ * The Aqara Door Sensor delivers a "true" or "false" in the RAW item
+ * This is transformed into a contact item here with OPEN/CLOSE states
+ *
+ */
+
+rule "Aqara - Door/Window Switch"
+when
+    Item AqaraDoor_StatusRaw changed
+then
+    if (AqaraDoor_StatusRaw.state=="true")   postUpdate(AqaraDoor_Status, CLOSED)
+    if (AqaraDoor_StatusRaw.state=="false")  postUpdate(AqaraDoor_Status, OPEN)
+end

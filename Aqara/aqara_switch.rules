@@ -1,0 +1,25 @@
+/*
+ * Codesnippets for Aqara Wireless Switches in OpenHAB2 
+ *
+ * 2019 Florian Brandner
+ * Public Domain, free to use in any way you like
+ *
+ * The switches send a string event containing the type of keypress. Single, Double, etc...
+ * Because of MQTT repeated clicks will not generate new events after the first one. 
+ * To fix this the event is handled here and afterwards the string-object is cleared
+ */
+rule "Aqara Switch"
+when
+    Item AqaraSW changed
+then
+  if (AqaraSW.state == "-") {
+    // Nothing to do
+  } else {
+
+    /*
+     * Do stuff here!
+     */
+
+    postUpdate(AqaraSW, "-")
+  }
+end

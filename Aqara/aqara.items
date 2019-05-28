@@ -1,0 +1,43 @@
+/*
+ * Codesnippets for Aqara-Devices in OpenHAB2 
+ *
+ * 2019 Florian Brandner
+ * Public Domain, free to use in any way you like
+ */
+
+// Aqara Wireless Switch
+String  AqaraSW                 "Taster [%s]"                               (gSwitches)             { channel="mqtt:topic:mosquitto:AqaraSwitch:clicktype "}
+Number  AqaraSW_LQ              "Taster Link [%.0f%%]"                      (gSwitches)             { channel="mqtt:topic:mosquitto:AqaraSwitch:link "}
+Number  AqaraSW_Bat             "Taster Bat [%.0f%%]"                       (gSwitches,gBattery)    { channel="mqtt:topic:mosquitto:AqaraSwitch:bat "}
+Number  AqaraSW_U               "Taster U [%.0fmV]"                         (gSwitches)             { channel="mqtt:topic:mosquitto:AqaraSwitch:volt "}
+
+// Aqara Environmental Sensor
+Number  AqaraSens_Temperature   "AqSensor Temp [%.1f °C]"  <temperature>    (gSensoren,gStoreData)  { channel="mqtt:topic:mosquitto:AqaraSensor:temp" }
+Number  AqaraSens_Humidity      "AqSensor Hum [%.0f %%]"   <humidity>       (gSensoren,gStoreData)  { channel="mqtt:topic:mosquitto:AqaraSensor:hum" }
+Number  AqaraSens_Pressure      "AqSensor Pressure [%.0f hPa]" <humidity>   (gSensoren,gStoreData)  { channel="mqtt:topic:mosquitto:AqaraSensor:press" }
+Number  AqaraSens_Battery       "AqSensor Battery [%.0f%%]"                 (gSensoren)             { channel="mqtt:topic:mosquitto:AqaraSensor:bat" }
+Number  AqaraSens_Volt          "AqSensor Voltage [%.0fmV]"                 (gSensoren)             { channel="mqtt:topic:mosquitto:AqaraSensor:volt" }
+Number  AqaraSens_Link          "AqSensor Link [%.0f%%]"                    (gSensoren)             { channel="mqtt:topic:mosquitto:AqaraSensor:link" }
+
+// Door/Window Sensor
+// Remark: The Contact is created by a rule using the StatusRaw
+Contact AqaraDoor_Status        "Door Status [%d]" <door>                   (gSensoren,gStoreData)
+String  AqaraDoor_StatusRaw     "Door Status In [%s]" <door>                (gSensoren)             { channel="mqtt:topic:mosquitto:AqaraDoor:cont" }
+Number  AqaraDoor_Link          "Door Link [%d%%]"                          (gSensoren)             { channel="mqtt:topic:mosquitto:AqaraDoor:link" }
+Number  AqaraDoor_Battery       "Door Battery [%.0f%%]"                     (gSensoren)             { channel="mqtt:topic:mosquitto:AqaraDoor:bat" }
+Number  AqaraDoor_Volt          "Door Voltage [%.0fmV]"                     (gSensoren)             { channel="mqtt:topic:mosquitto:AqaraDoor:volt" }
+
+// Cube
+String  AqCube_Aktion           "AqaraCube Event [%s]"                      (gAqCube)               { channel="mqtt:topic:mosquitto:AqaraCube:Aktion" }
+Number  AqCube_Link             "AqaraCube Link [%d%%]"                     (gAqCube)               { channel="mqtt:topic:mosquitto:AqaraCube:link" }
+String  AqCube_Angle            "AqaraCube Winkel [%s°]"                    (gAqCube)               { channel="mqtt:topic:mosquitto:AqaraCube:angle" }
+String  AqCube_Side             "AqaraCube Side [%s]"                       (gAqCube)               { channel="mqtt:topic:mosquitto:AqaraCube:side" }
+String  AqCube_SideFrom         "AqaraCube FromSide [%s]"                   (gAqCube)               { channel="mqtt:topic:mosquitto:AqaraCube:sidefrom" }
+String  AqCube_SideTo           "AqaraCube ToSide [%s]"                     (gAqCube)               { channel="mqtt:topic:mosquitto:AqaraCube:sideto" }
+Number  AqCube_Battery          "AqaraCube Battery [%.0f%%]"                (gAqCube)               { channel="mqtt:topic:mosquitto:AqaraCube:bat" }
+Number  AqCube_Volt             "AqaraCube Voltage [%.0fmV]"                (gAqCube)               { channel="mqtt:topic:mosquitto:AqaraCube:volt" }
+
+// Aqara PIR
+String  AqPIR_Bew               "PIR: Bewegung Raw [%s]"                    (gBewegung)             { channel="mqtt:topic:mosquitto:AqaraPIR:occup" }
+Number  AqPIR_Licht             "PIR: Licht"                                (gBewegung,gStoreData)  { channel="mqtt:topic:mosquitto:AqaraPIR:illu" }
+Number  AqPIR_Link              "PIR: Link Qualität"                        (gBewegung)             { channel="mqtt:topic:mosquitto:AqaraPIR:link" }

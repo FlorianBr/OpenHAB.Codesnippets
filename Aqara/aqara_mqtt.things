@@ -1,0 +1,55 @@
+/*
+ * Codesnippets for Aqara-Devices in OpenHAB2
+ *
+ * 2019 Florian Brandner
+ * Public Domain, free to use in any way you like
+ */
+
+Bridge mqtt:broker:mosquitto "Mosquitto MQTT Broker" [ host="<IPADDRESS>", secure=false, port=1883, clientID="OpenHAB2" ] {
+
+    //  Aqara Wireless Switch
+    Thing topic AqaraSwitch "Aqara Switch" {
+        Type string     :   clicktype  "Klick"          [ stateTopic="zigbee2mqtt/AqaraSwitch", transformationPattern="JSONPATH:$.click"]
+        Type number     :   link       "Link Quality"   [ stateTopic="zigbee2mqtt/AqaraSwitch", transformationPattern="JSONPATH:$.linkquality" ]
+        Type number     :   bat        "Battery"        [ stateTopic="zigbee2mqtt/AqaraSwitch", transformationPattern="JSONPATH:$.battery" ]
+        Type number     :   volt       "Voltage"        [ stateTopic="zigbee2mqtt/AqaraSwitch", transformationPattern="JSONPATH:$.voltage" ]
+    }
+
+    // Aqara Environmental Sensor
+    Thing topic AqaraSensor "Aqara Sensor" {
+        Type number     : temp      "Temperatur"        [ stateTopic="zigbee2mqtt/AqaraSensor", transformationPattern="JSONPATH:$.temperature" ]
+        Type number     : link      "Link Quality"      [ stateTopic="zigbee2mqtt/AqaraSensor", transformationPattern="JSONPATH:$.linkquality" ]
+        Type number     : hum       "Humidity"          [ stateTopic="zigbee2mqtt/AqaraSensor", transformationPattern="JSONPATH:$.humidity" ]
+        Type number     : press     "Pressure"          [ stateTopic="zigbee2mqtt/AqaraSensor", transformationPattern="JSONPATH:$.pressure" ]
+        Type number     : bat       "Battery"           [ stateTopic="zigbee2mqtt/AqaraSensor", transformationPattern="JSONPATH:$.battery" ]
+        Type number     : volt      "Voltage"           [ stateTopic="zigbee2mqtt/AqaraSensor", transformationPattern="JSONPATH:$.voltage" ]
+    }
+
+    // Door/Window Sensor
+    Thing topic AqaraDoor "Aqara Doorsensor" {
+        Type string     : cont      "Kontakt"           [ stateTopic="zigbee2mqtt/AqaraDoor", transformationPattern="JSONPATH:$.contact"  ]
+        Type number     : link      "Link Quality"      [ stateTopic="zigbee2mqtt/AqaraDoor", transformationPattern="JSONPATH:$.linkquality" ]
+        Type number     : bat       "Battery"           [ stateTopic="zigbee2mqtt/AqaraDoor", transformationPattern="JSONPATH:$.battery" ]
+        Type number     : volt      "Voltage"           [ stateTopic="zigbee2mqtt/AqaraDoor", transformationPattern="JSONPATH:$.voltage" ]
+    }
+
+    // Aqara Cube
+    Thing topic AqaraCube "Aqara Cube" {
+        Type string     : Aktion    "Aktion"            [ stateTopic="zigbee2mqtt/AqaraCube", transformationPattern="JSONPATH:$.action"  ]
+        Type number     : link      "Link Quality"      [ stateTopic="zigbee2mqtt/AqaraCube", transformationPattern="JSONPATH:$.linkquality" ]
+        Type string     : angle     "Winkel"            [ stateTopic="zigbee2mqtt/AqaraCube", transformationPattern="JSONPATH:$.angle" ]
+        Type string     : side      "Side"              [ stateTopic="zigbee2mqtt/AqaraCube", transformationPattern="JSONPATH:$.side" ]
+        Type string     : sidefrom  "Side From"         [ stateTopic="zigbee2mqtt/AqaraCube", transformationPattern="JSONPATH:$.from_side" ]
+        Type string     : sideto    "Side To"           [ stateTopic="zigbee2mqtt/AqaraCube", transformationPattern="JSONPATH:$.to_side" ]
+        Type number     : bat       "Battery"           [ stateTopic="zigbee2mqtt/AqaraCube", transformationPattern="JSONPATH:$.battery" ]
+        Type number     : volt      "Voltage"           [ stateTopic="zigbee2mqtt/AqaraCube", transformationPattern="JSONPATH:$.voltage" ]
+    }
+
+    // Aqara PIR Sensor
+    Thing topic AqaraPIR "Aqara PIR" {
+        Type string     : occup     "Bewegung"          [ stateTopic="zigbee2mqtt/AqaraPIR", transformationPattern="JSONPATH:$.occupancy"  ]
+        Type number     : illu      "Licht"             [ stateTopic="zigbee2mqtt/AqaraPIR", transformationPattern="JSONPATH:$.illuminance" ]
+        Type number     : link      "Link Quality"      [ stateTopic="zigbee2mqtt/AqaraPIR", transformationPattern="JSONPATH:$.linkquality" ]
+    }
+
+}

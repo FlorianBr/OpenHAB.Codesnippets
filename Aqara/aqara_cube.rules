@@ -1,0 +1,35 @@
+/*
+ * Codesnippets for Aqara-Cube in OpenHAB2 
+ *
+ * 2019 Florian Brandner
+ * Public Domain, free to use in any way you like
+
+ * The Cube sends string events depending on the action.
+ * Because of MQTT repeated actions will not generate new events after the first one. 
+ * To fix this the string-objects are cleared at the end of the rule
+ */
+rule "Aqara Cube"
+when
+    Item AqCube_Aktion changed
+then
+    logInfo ('AqCube','Event: Aktion is: ' + AqCube_Aktion.state )
+
+    if (AqCube_Aktion.state=="tap") {
+        logInfo ('AqCube','Event: Tap')
+        /*
+         * Do stuff here
+         */
+    }
+
+    /*
+     * Do more stuff here
+     */
+
+    // Clear auxiliar items
+    postUpdate(AqCube_Side, "")
+    postUpdate(AqCube_SideFrom, "")
+    postUpdate(AqCube_SideTo, "")
+    postUpdate(AqCube_Angle, "")
+    postUpdate(AqCube_Aktion, "")
+
+end
