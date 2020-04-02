@@ -1,0 +1,34 @@
+/*
+ * Codesnippets for Roborock running Valetudo RE in OpenHAB2
+ *
+ * 2020 Florian Brandner
+ * Public Domain, free to use in any way you like
+ */
+
+Thing topic Valetudo "Roborock" {
+    Type string     : ConnState "State"                 [ stateTopic="valetudo/rockrobo/state", transformationPattern="JSONPATH:$.state"  ]
+    Type number     : BatLevel  "Battery"               [ stateTopic="valetudo/rockrobo/state", transformationPattern="JSONPATH:$.battery_level"  ]
+    Type string     : FanSpeed  "FanSpeed"              [ stateTopic="valetudo/rockrobo/state", transformationPattern="JSONPATH:$.fan_speed"  ]
+
+    Type string     : CleanTime "Clean Time"            [ stateTopic="valetudo/rockrobo/attributes", transformationPattern="JSONPATH:$.cleanTime"  ]
+    Type string     : CleanArea "Clean Area"            [ stateTopic="valetudo/rockrobo/attributes", transformationPattern="JSONPATH:$.cleanArea"  ]
+    Type string     : CleanCount "Clean Count"          [ stateTopic="valetudo/rockrobo/attributes", transformationPattern="JSONPATH:$.cleanCount"  ]
+
+    Type string     : ConsMainB "Main Brush"            [ stateTopic="valetudo/rockrobo/attributes", transformationPattern="JSONPATH:$.mainBrush"  ]
+    Type string     : ConsSideB "Side Brush"            [ stateTopic="valetudo/rockrobo/attributes", transformationPattern="JSONPATH:$.sideBrush"  ]
+    Type string     : ConsFilter "Filter"               [ stateTopic="valetudo/rockrobo/attributes", transformationPattern="JSONPATH:$.filter"  ]
+    Type string     : ConsSens "Sensor"                 [ stateTopic="valetudo/rockrobo/attributes", transformationPattern="JSONPATH:$.sensor"  ]
+
+    Type string     : AtrState "Atr State"              [ stateTopic="valetudo/rockrobo/attributes", transformationPattern="JSONPATH:$.state"  ]
+    Type string     : ValState "Val State"              [ stateTopic="valetudo/rockrobo/attributes", transformationPattern="JSONPATH:$.valetudo_state.name"  ]
+
+    Type number     : LastStart "Last Start"            [ stateTopic="valetudo/rockrobo/attributes", transformationPattern="JSONPATH:$.last_run_stats.startTime"  ]
+    Type number     : LastEnd   "Last End"              [ stateTopic="valetudo/rockrobo/attributes", transformationPattern="JSONPATH:$.last_run_stats.endTime"  ]
+    Type number     : LastDur   "Last Duration"         [ stateTopic="valetudo/rockrobo/attributes", transformationPattern="JSONPATH:$.last_run_stats.duration"  ]
+    Type string     : LastArea  "Last Area"             [ stateTopic="valetudo/rockrobo/attributes", transformationPattern="JSONPATH:$.last_run_stats.area"  ]
+    Type string     : LastError "Last Error"            [ stateTopic="valetudo/rockrobo/attributes", transformationPattern="JSONPATH:$.last_run_stats.errorDescription"  ]
+    Type string     : LastFinish "Last Finished"        [ stateTopic="valetudo/rockrobo/attributes", transformationPattern="JSONPATH:$.last_run_stats.finishedFlag"  ]
+
+    Type string     : Cmd        "Command"              [ commandTopic="valetudo/rockrobo/command" ]
+    Type string     : CCmd       "CustomCommand"        [ commandTopic="valetudo/rockrobo/custom_command" ]
+}

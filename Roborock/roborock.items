@@ -1,0 +1,31 @@
+/*
+ * Codesnippets for Roborock running Valetudo RE in OpenHAB2
+ *
+ * 2020 Florian Brandner
+ * Public Domain, free to use in any way you like
+ */
+
+Group gRoborock
+
+String   Roborock_CState        "Connection State: [%s]"                    (gRoborock)                 { channel="mqtt:topic:mosquitto:Valetudo:ConnState" }
+String   Roborock_AState        "Attribute State: [%s]"                     (gRoborock)                 { channel="mqtt:topic:mosquitto:Valetudo:AtrState" }
+String   Roborock_VState        "Valetudo State: [%s]"                      (gRoborock)                 { channel="mqtt:topic:mosquitto:Valetudo:ValState" }
+Number   Roborock_Battery	    "Battery [%d %%]"                           (gRoborock)         	    { channel="mqtt:topic:mosquitto:Valetudo:BatLevel "}
+String   Roborock_FanSpeed      "Fanspeed [%s]"                             (gRoborock)                 { channel="mqtt:topic:mosquitto:Valetudo:FanSpeed" }
+String   Roborock_CleanT        "Clean Time [%s]"                           (gRoborock)                 { channel="mqtt:topic:mosquitto:Valetudo:CleanTime" }
+String   Roborock_CleanA        "Clean Area [%s]"                           (gRoborock)                 { channel="mqtt:topic:mosquitto:Valetudo:CleanArea" }
+String   Roborock_CleanC        "Clean Count [%s]"                          (gRoborock)                 { channel="mqtt:topic:mosquitto:Valetudo:CleanCount" }
+String   Roborock_ConsMB        "Consumable: Main Brush [%s]"               (gRoborock)                 { channel="mqtt:topic:mosquitto:Valetudo:ConsMainB" }
+String   Roborock_ConsSB        "Consumable: Side Brush [%s]"               (gRoborock)                 { channel="mqtt:topic:mosquitto:Valetudo:ConsSideB" }
+String   Roborock_ConsFi        "Consumable: Filter [%s]"                   (gRoborock)                 { channel="mqtt:topic:mosquitto:Valetudo:ConsFilter" }
+String   Roborock_ConsSe        "Consumable: Sensor [%s]"                   (gRoborock)                 { channel="mqtt:topic:mosquitto:Valetudo:ConsSens" }
+Number   Roborock_LastStart	    "Last Start [%d]"                          	(gRoborock)         	    { channel="mqtt:topic:mosquitto:Valetudo:LastStart "}
+DateTime Roborock_LastStartDT   "Last Start DT"                             (gRoborock)
+Number   Roborock_LastEnd 	    "Last End [%d]"                          	(gRoborock)         	    { channel="mqtt:topic:mosquitto:Valetudo:LastEnd" }
+Number   Roborock_LastDur 	    "Last Duration [%d]"                       	(gRoborock)         	    { channel="mqtt:topic:mosquitto:Valetudo:LastDur" }
+String   Roborock_LastArea 	    "Last Area [%s]"                          	(gRoborock)         	    { channel="mqtt:topic:mosquitto:Valetudo:LastArea" }
+String   Roborock_LastError 	"Last Error [%s]"                          	(gRoborock)         	    { channel="mqtt:topic:mosquitto:Valetudo:LastError" }
+String   Roborock_LastFinish 	"Last Finish [%s]"                         	(gRoborock)         	    { channel="mqtt:topic:mosquitto:Valetudo:LastFinish" }
+Switch   Roborock_LastFinishSW  "Last Finish [%s]"                         	(gRoborock)
+String   Roborock_Command       "Command"                                   (gRoborock)                 { channel="mqtt:topic:mosquitto:Valetudo:Cmd" }
+String   Roborock_CustomCommand "CustCommand"                               (gRoborock)                 { channel="mqtt:topic:mosquitto:Valetudo:CCmd" }

@@ -1,0 +1,29 @@
+/*
+ * Codesnippets for Roborock running Valetudo RE in OpenHAB2
+ *
+ * 2020 Florian Brandner
+ * Public Domain, free to use in any way you like
+ */
+
+// Robo-Autostart
+// Starts at a fixed time a zone-cleanup for Zone "A"
+rule "Roborock: AutoPutz"
+when
+    Time cron "0 0 14 ? * FRI" // Friday at 14:00:00
+then
+    logInfo("Roborock", "Starting!")
+    sendCommand(Roborock_CustomCommand, "{ \"command\":\"zoned_cleanup\",\"zone_ids\":[\"A\"]}")
+end
+
+
+// Translate the "LastFinish" state
+rule "Roborock - Finish-Switch"
+when
+    Item Roborock_LastFinish changed
+then
+    if (Roborock_LastFinish.state == "true") {
+        postUpdate(Roborock_LastFinishSW, ON)
+    } else {
+        postUpdate(Roborock_LastFinishSW, OFF)
+    }
+end
