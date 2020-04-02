@@ -15,6 +15,14 @@ Bridge mqtt:broker:mosquitto "Mosquitto MQTT Broker" [ host="<IPADDRESS>", secur
         Type number     :   volt       "Voltage"        [ stateTopic="zigbee2mqtt/AqaraSwitch", transformationPattern="JSONPATH:$.voltage" ]
     }
 
+    // Aqara Double Switch
+    Thing topic AqaraDSwitch "Aqara Double Sitch" {
+        Type string     :   clicktype  "Klick"          [ stateTopic="zigbee2mqtt/AqaraDSwitch", transformationPattern="JSONPATH:$.click"]
+        Type number     :   link       "Link Quality"   [ stateTopic="zigbee2mqtt/AqaraDSwitch", transformationPattern="JSONPATH:$.linkquality" ]
+        Type number     :   bat        "Battery"        [ stateTopic="zigbee2mqtt/AqaraDSwitch", transformationPattern="JSONPATH:$.battery" ]
+        Type number     :   volt       "Voltage"        [ stateTopic="zigbee2mqtt/AqaraDSwitch", transformationPattern="JSONPATH:$.voltage" ]
+    }
+
     // Aqara Environmental Sensor
     Thing topic AqaraSensor "Aqara Sensor" {
         Type number     : temp      "Temperatur"        [ stateTopic="zigbee2mqtt/AqaraSensor", transformationPattern="JSONPATH:$.temperature" ]

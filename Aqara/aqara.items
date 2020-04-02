@@ -11,6 +11,12 @@ Number  AqaraSW_LQ              "Taster Link [%.0f%%]"                      (gSw
 Number  AqaraSW_Bat             "Taster Bat [%.0f%%]"                       (gSwitches,gBattery)    { channel="mqtt:topic:mosquitto:AqaraSwitch:bat "}
 Number  AqaraSW_U               "Taster U [%.0fmV]"                         (gSwitches)             { channel="mqtt:topic:mosquitto:AqaraSwitch:volt "}
 
+// Aqara Double Switch
+String   AqaraDSW               "Doubleswitch [%s]"                         (gSwitches)             { channel="mqtt:topic:mosquitto:AqaraDSwitch:clicktype "}
+Number   AqaraDSW_LQ            "Doubleswitch LQ [%.0f%%]"                  (gSwitches)             { channel="mqtt:topic:mosquitto:AqaraDSwitch:link "}
+Number   AqaraDSW_B             "Doubleswitch B [%.0f%%]"                   (gSwitches,gBattery)    { channel="mqtt:topic:mosquitto:AqaraDSwitch:bat "}
+Number   AqaraDSW_V             "Doubleswitch V [%.0fmV]"                   (gSwitches)             { channel="mqtt:topic:mosquitto:AqaraDSwitch:volt "}
+
 // Aqara Environmental Sensor
 Number  AqaraSens_Temperature   "AqSensor Temp [%.1f °C]"  <temperature>    (gSensoren,gStoreData)  { channel="mqtt:topic:mosquitto:AqaraSensor:temp" }
 Number  AqaraSens_Humidity      "AqSensor Hum [%.0f %%]"   <humidity>       (gSensoren,gStoreData)  { channel="mqtt:topic:mosquitto:AqaraSensor:hum" }
