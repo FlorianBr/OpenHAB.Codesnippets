@@ -1,0 +1,25 @@
+/*
+ * Codesnippets for Denon AVR in OpenHAB2 
+ *
+ * 2020 Florian Brandner
+ * Public Domain, free to use in any way you like
+ */
+
+Group gAVR
+Group gAVRInputs
+
+Switch	DenonPower          "Power"         <receiver>	    (gAVR)              { channel="denonmarantz:avr:avr01:general#power" }
+Switch	DenonMainZone       "Main Zone"                     (gAVR)              { channel="denonmarantz:avr:avr01:mainZone#power" }
+Switch	DenonZone2          "Zone 2"                        (gAVR)              { channel="denonmarantz:avr:avr01:zone2#power" }
+String	DenonSurroundMode   "Surround mode [%s]"            (gAVR)              { channel="denonmarantz:avr:avr01:general#surroundProgram" }
+Dimmer	DenonVolume         "Volume [%.1f]"	<soundvolume>   (gAVR)              { channel="denonmarantz:avr:avr01:mainZone#volume" }
+Switch	DenonMute           "Mute"					        (gAVR)              { channel="denonmarantz:avr:avr01:mainZone#mute" }
+String	DenonInput          "Input [%s]"				    (gAVR,gAVRInputs)   { channel="denonmarantz:avr:avr01:mainZone#input" }
+String  DenonCmd            "Command [%s]"                  (gAVR)              { channel="denonmarantz:avr:avr01:general#command" }
+String  DenonCmdM           "Command MainZ [%s]"            (gAVR)              { channel="denonmarantz:avr:avr01:mainZone#command" }
+
+String  DenonNowPlayArtist  "Now playing Artist [%s]"       (gAVR)              { channel="denonmarantz:avr:avr01:general#artist" }
+String  DenonNowPlayAlbum   "Now playing Album [%s]"        (gAVR)              { channel="denonmarantz:avr:avr01:general#album" }
+String  DenonNowPlayTrack   "Now playing Track [%s]"        (gAVR)              { channel="denonmarantz:avr:avr01:general#track" }
+
+Number  DenonModeSelect     "Mode Selected"                 (gAVR)

@@ -1,0 +1,30 @@
+/*
+ * Codesnippets for Denon AVR in OpenHAB2 
+ *
+ * 2020 Florian Brandner
+ * Public Domain, free to use in any way you like
+ */
+
+ rule "Denon Mode Controller"
+when
+    Item DenonModeSelect changed
+then
+    switch DenonModeSelect.state { 
+        case  1: { DenonCmd.sendCommand("MSMOVIE"); }
+        case  2: { DenonCmd.sendCommand("MSMUSIC"); }
+        case  3: { DenonCmd.sendCommand("MSGAME"); }
+        case  4: { DenonCmd.sendCommand("MSDIRECT"); }
+        case  5: { DenonCmd.sendCommand("MSPURE DIRECT"); }
+        case  6: { DenonCmd.sendCommand("MSSTEREO"); }
+        case  7: { DenonCmd.sendCommand("MSAUTO"); }
+        case  8: { DenonCmd.sendCommand("MSNEURAL"); }
+        case  9: { DenonCmd.sendCommand("MSSTANDARD"); }
+        case 10: { DenonCmd.sendCommand("MSDOLBY"); }
+        case 11: { DenonCmd.sendCommand("MSDTS"); }
+        case 12: { DenonCmd.sendCommand("MSMCH STEREO"); }
+        case 13: { DenonCmd.sendCommand("MSMATRIX"); }
+        case 14: { DenonCmd.sendCommand("MSVIRTUAL"); }
+        case 15: { DenonCmd.sendCommand("MSLEFT"); }
+        case 16: { DenonCmd.sendCommand("MSRIGHT"); }
+    }
+end
