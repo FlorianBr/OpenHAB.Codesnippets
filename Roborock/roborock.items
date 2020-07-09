@@ -29,3 +29,4 @@ String   Roborock_LastFinish 	"Last Finish [%s]"                         	(gRobo
 Switch   Roborock_LastFinishSW  "Last Finish [%s]"                         	(gRoborock)
 String   Roborock_Command       "Command"                                   (gRoborock)                 { channel="mqtt:topic:mosquitto:Valetudo:Cmd" }
 String   Roborock_CustomCommand "CustCommand"                               (gRoborock)                 { channel="mqtt:topic:mosquitto:Valetudo:CCmd" }
+Image    Roborock_MapImage      "Map"                                       (gRoborock)                 { channel="mqtt:topic:mosquitto:Valetudo:MapImage" }

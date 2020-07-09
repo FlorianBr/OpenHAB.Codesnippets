@@ -29,6 +29,8 @@ Thing topic Valetudo "Roborock" {
     Type string     : LastError "Last Error"            [ stateTopic="valetudo/rockrobo/attributes", transformationPattern="JSONPATH:$.last_run_stats.errorDescription"  ]
     Type string     : LastFinish "Last Finished"        [ stateTopic="valetudo/rockrobo/attributes", transformationPattern="JSONPATH:$.last_run_stats.finishedFlag"  ]
 
+    Type image      : MapImage "Map"                    [ stateTopic="valetudo/roborock/map" ]
+
     Type string     : Cmd        "Command"              [ commandTopic="valetudo/rockrobo/command" ]
     Type string     : CCmd       "CustomCommand"        [ commandTopic="valetudo/rockrobo/custom_command" ]
 }
