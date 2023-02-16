@@ -1,0 +1,97 @@
+/*
+ * Simple movement detector with additional button
+ * If one of the PIRs detect a movement or the door switch opens, a group is set to a
+ * brightness depending on the time of day and turned off after a timeout
+ * Can be triggered by a button too. On a single click like a PIR, on double click with 
+ * a timeout of 5 min and 100% brightness
+ *
+ * Used names:
+ *   AqaraBewF1_BewRaw      PIR Sensor 1
+ *   AqaraBewF2_BewRaw      PIR Sensor 2
+ *   AqaraHaustuer          Door Sensor
+ *   AqaraFlur              Button
+ *   gLampenFlurAuto        Group of Lamps to trigger
+ */
+
+// Settings
+var int BrightNight = 10        // Nighttime Brightness in %
+var int BrightDay = 100         // Daytime Brightness in %
+var int TimeoutDefault = 1      // Default Timeout in Minutes
+var int TimeoutManual = 2       // Manual Timeout in Minutes
+
+// Member Variables
+var Timer LightTimer = null
+var int CurrentTimeout = TimeoutDefault
+var int CurrentBrightness = BrightDay
+
+rule "Floorlight Init"
+when 
+    System started
+then
+    postUpdate(AqaraBewF1_BewRaw, "")
+    postUpdate(AqaraBewF2_BewRaw, "")
+    postUpdate(AqaraFlur, "")
+    postUpdate(AqaraHaustuer, CLOSED)
+end
+
+rule "Floorlight Main"
+when
+    Item AqaraBewF1_BewRaw changed or
+    Item AqaraBewF2_BewRaw changed or 
+    Item AqaraFlur changed to "single" or
+    Item AqaraFlur changed to "double" or
+    Item AqaraHaustuer changed from CLOSED to OPEN
+then
+    var Brightness = CurrentBrightness
+    var Timeout = CurrentTimeout
+    var hour = now.getHour
+
+    // Set the default values only when no timer is running
+    if(LightTimer === null) {
+        Timeout = TimeoutDefault
+
+        if ((hour>22) || (hour<6)) {    // 22:59 to 5:59
+            Brightness=BrightNight
+        } else {
+            Brightness=BrightDay
+        }
+    }
+
+    // Overwrite Timeout and Brightness if manually triggered
+    if (AqaraFlur.state == "double") {
+        Timeout = TimeoutManual
+        Brightness = BrightDay
+    }
+
+
+    if(LightTimer === null) {
+        logInfo("Floorlight", "Trigger with "+Brightness.toString+" and Timeout "+Timeout.toString)
+
+        gLampenFlurAuto.members.forEach[ dmr | 
+            dmr.sendCommand(Brightness)
+            Thread::sleep(200)
+            ]
+
+        LightTimer = createTimer(now.plusMinutes(Timeout), [|
+            logInfo("Floorlight", "Going OFF")
+            gLampenFlurAuto.members.forEach[ dmr | 
+                dmr.sendCommand(0)
+                Thread::sleep(200)
+                ]
+            LightTimer = null
+        ])
+    }
+    else
+    {
+        logInfo("Floorlight", "Re-Trigger with "+Brightness.toString+" and Timeout "+Timeout.toString)
+        gLampenFlurAuto.members.forEach[ dmr | 
+            dmr.sendCommand(Brightness)
+            Thread::sleep(200)
+            ]
+        LightTimer.reschedule(now.plusMinutes(Timeout))
+    }
+
+    AqaraFlur.sendCommand("") // Clear
+    CurrentTimeout = Timeout
+    CurrentBrightness = Brightness
+end
