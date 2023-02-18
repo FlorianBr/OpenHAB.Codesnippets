@@ -1,0 +1,46 @@
+/**
+ * Rule to toggle and dim a Light using the Aqara Button.
+ * The old buttons to not support the events hold and release, so
+ * dimming is set to double and triple clicks
+ *
+ * Used names:
+ *   AqaraSwitch    The Aqara Button
+ *   HUE_Lampe1     The lamp to control  
+ */
+
+var int StepSize = 20 // Brightness increase/decrease
+
+rule "Aqara Switch"
+when
+    Item AqaraSwitch changed
+then
+    if (AqaraSwitch.state != "") {
+        var CurrentState = (HUE_Lampe1.state as Number)
+
+        // Single click: Toggle
+        if (AqaraSwitch.state == "single") {
+            if (CurrentState > 0) {
+                HUE_Lampe1.sendCommand(0)
+            } else {
+                HUE_Lampe1.sendCommand(100)
+            }
+        }
+        else
+        // Double: Increase by StepSize
+        if (AqaraSwitch.state == "double") {
+            if (CurrentState + StepSize <= 100) {
+                CurrentState = CurrentState + StepSize
+                HUE_Lampe1.sendCommand(CurrentState)
+            } 
+        }
+        else
+        // Triple: Decrease by StepSize
+        if (AqaraSwitch.state == "triple") {
+            if (CurrentState - StepSize >= 0) {
+                CurrentState = CurrentState - StepSize
+                HUE_Lampe1.sendCommand(CurrentState)
+            } 
+        }
+        postUpdate(AqaraSwitch, "") // Clear
+    }
+end
