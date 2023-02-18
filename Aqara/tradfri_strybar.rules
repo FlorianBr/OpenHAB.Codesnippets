@@ -1,0 +1,199 @@
+/**
+ * Rule to Toggle and Dim a Light using the Ikea Strybar.
+ * With the left and right arrows two light groups are toggled
+ * With small/big lights the groups are dimmed
+ *
+ * Used names:
+ *   TradfriStry1       The Strybar Button
+ *   gLampsG1           Lamps Group 1
+ *   gLampsG2           Lamps Group 2
+ *
+ * Notes:
+ *   It would be better to read in Brightnesses and On/Off-State once
+ *   and not on every event. But that way settings made by other rules,
+ *   apps or the web-ui are not overwritten
+ *
+ * Todo:
+ *  - Refactoring and cleanup. The Inc/Dec loops need optimisation
+ *  - Nonlinear Dimming
+ */
+
+// Settings
+var int StepSize = 10               // Dimmer step size
+var int DimmerDelay = 500           // Dimming delay in ms
+var int MinBrightness = 10          // Minimal Brightness
+
+// Member Variables
+var int Brightness_G1 = 0           // Brightness Group 1
+var int Brightness_G2 = 0           // Brightness Group 2
+
+
+rule "Tradfri Strybar 1 - Init"
+when
+    System started
+then
+    postUpdate(TradfriStry1, "") // Clear
+end
+
+rule "Tradfri Strybar 1 - Worker"
+when
+    Item TradfriStry1 changed
+then
+    var IsG1On = false
+    var IsG2On = false
+
+    // No real event: abort
+    if (TradfriStry1.state == "") { 
+        return
+    }
+    // Button was released: Clear and abort
+    if (TradfriStry1.state == "brightness_stop") {
+        postUpdate(TradfriStry1, "")
+        return
+    }
+
+    // Get Brightness and On/Off-State of Group 1
+    gLampsG1.members.forEach[ item | 	
+        if (item instanceof DimmerItem) {
+            Brightness_G1 = item.state
+            if (item.state > 0) IsG1On = true
+        } else {
+            if (item.state == ON) IsG1On = true
+        }
+    ]
+    logInfo("Dimmer", "Starting Brightness = "+Brightness_G1+" IsOn="+IsG1On.toString)
+
+    // Get Brightness and On/Off-State of Group 2
+    gLampsG2.members.forEach[ item | 	
+        if (item instanceof DimmerItem) {
+            Brightness_G2 = item.state
+            if (item.state > 0) IsG2On = true
+        } else {
+            if (item.state == ON) IsG2On = true
+        }
+    ]
+    logInfo("Dimmer", "Starting Brightness = "+Brightness_G2+" IsOn="+IsG2On.toString)
+
+
+    switch (TradfriStry1.state) {
+        case "": { }
+        // ******************** Toggle Group 1
+        case "arrow_right_click": {
+            if (IsG1On) {   // Set Group 1 to OFF
+                gLampsG1.members.forEach[ item |
+                    if (item instanceof DimmerItem) {
+                        item.sendCommand(0)
+                    } else {
+                        item.sendCommand(OFF)
+                    }
+                ]
+            } else {        // Set Group 1 to ON
+                gLampsG1.members.forEach[ item |
+                    if (item instanceof DimmerItem) {
+                        item.sendCommand(100)
+                    } else {
+                        item.sendCommand(ON)
+                    }
+                ]
+            }
+        }
+        // ******************** Toggle Group 2
+        case "arrow_left_click": {
+            if (IsG2On) {   // Set Group 2 to OFF
+                gLampsG2.members.forEach[ item |
+                    if (item instanceof DimmerItem) {
+                        item.sendCommand(0)
+                    } else {
+                        item.sendCommand(OFF)
+                    }
+                ]
+            } else {        // Set Group 2 to ON
+                gLampsG2.members.forEach[ item |
+                    if (item instanceof DimmerItem) {
+                        item.sendCommand(100)
+                    } else {
+                        item.sendCommand(ON)
+                    }
+                ]
+            }
+        }
+        // ******************** Increase Brightness 
+        case "brightness_move_up": {
+            var Bright1 = (Brightness_G1 as Number)
+            var Bright2 = (Brightness_G2 as Number)
+            while (TradfriStry1.state=="brightness_move_up") {
+                if (IsG1On) {
+                    Bright1 = Bright1 + StepSize
+                    if (Bright1 > 100) { Bright1 = 100 }
+                }
+                if (IsG2On) {
+                    Bright2 = Bright2 + StepSize
+                    if (Bright2 > 100) { Bright2 = 100 }
+                }
+                logInfo("Dimmer", "Increasing Brightness = "+Bright1+" / "+Bright2)
+
+                if (IsG1On) {   // Set Group 1 if ON
+                    gLampsG1.members.forEach[ item |
+                        if (item instanceof DimmerItem) {
+                            item.sendCommand(Bright1)
+                        } else {
+                            item.sendCommand(ON)
+                        }
+                    ]
+                }
+                if (IsG2On) {   // Set Group 2 if ON
+                    gLampsG2.members.forEach[ item |
+                        if (item instanceof DimmerItem) {
+                            item.sendCommand(Bright2)
+                        } else {
+                            item.sendCommand(ON)
+                        }
+                    ]
+                }
+                Thread::sleep(DimmerDelay)
+            } // while
+            if (IsG1On) Brightness_G1 = Bright1
+            if (IsG2On) Brightness_G2 = Bright2
+        } // brightness_move_up
+        // ******************** Decrease Brightness
+        case "brightness_move_down": {
+            var Bright1 = (Brightness_G1 as Number)
+            var Bright2 = (Brightness_G2 as Number)
+            while (TradfriStry1.state=="brightness_move_down") {
+                if (IsG1On) {
+                    Bright1 = Bright1 - StepSize
+                    if (Bright1 < MinBrightness) { Bright1 = MinBrightness }
+                }
+                if (IsG2On) {
+                    Bright2 = Bright2 - StepSize
+                    if (Bright2 < MinBrightness) { Bright2 = MinBrightness }
+                }
+                logInfo("Dimmer", "Decreasing Brightness = "+Bright1+" / "+Bright2)
+
+                if (IsG1On) {   // Set Group 1 if ON
+                    gLampsG1.members.forEach[ item |
+                        if (item instanceof DimmerItem) {
+                            item.sendCommand(Bright1)
+                        } else {
+                            item.sendCommand(ON)
+                        }
+                    ]
+                }
+                if (IsG2On) {   // Set Group 2 if ON
+                    gLampsG2.members.forEach[ item |
+                        if (item instanceof DimmerItem) {
+                            item.sendCommand(Bright2)
+                        } else {
+                            item.sendCommand(ON)
+                        }
+                    ]
+                }
+                Thread::sleep(DimmerDelay)
+            } // while
+            if (IsG1On) Brightness_G1 = Bright1
+            if (IsG2On) Brightness_G2 = Bright2
+        } // brightness_move_down
+    } // switch
+
+    postUpdate(TradfriStry1, "") // Clear
+end
