@@ -23,8 +23,8 @@ var int DimmerDelay = 500           // Dimming delay in ms
 var int MinBrightness = 10          // Minimal Brightness
 
 // Member Variables
-var int Brightness_G1 = 0           // Brightness Group 1
-var int Brightness_G2 = 0           // Brightness Group 2
+var Number Brightness_G1 = 0        // Brightness Group 1
+var Number Brightness_G2 = 0        // Brightness Group 2
 
 
 rule "Tradfri Strybar 1 - Init"
@@ -115,8 +115,8 @@ then
         }
         // ******************** Increase Brightness 
         case "brightness_move_up": {
-            var Bright1 = (Brightness_G1 as Number)
-            var Bright2 = (Brightness_G2 as Number)
+            var Bright1 = Brightness_G1
+            var Bright2 = Brightness_G2
             while (TradfriStry1.state=="brightness_move_up") {
                 if (IsG1On) {   // Set Group 1 if ON
                     Bright1 = Bright1 + StepSize
@@ -149,8 +149,8 @@ then
         } // brightness_move_up
         // ******************** Decrease Brightness
         case "brightness_move_down": {
-            var Bright1 = (Brightness_G1 as Number)
-            var Bright2 = (Brightness_G2 as Number)
+            var Bright1 = Brightness_G1
+            var Bright2 = Brightness_G2
             while (TradfriStry1.state=="brightness_move_down") {
                 if (IsG1On) {   // Set Group 1 if ON
                     Bright1 = Bright1 - StepSize
