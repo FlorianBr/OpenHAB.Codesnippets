@@ -14,7 +14,6 @@
  *   apps or the web-ui are not overwritten
  *
  * Todo:
- *  - Refactoring and cleanup. The Inc/Dec loops need optimisation
  *  - Nonlinear Dimming
  */
 
@@ -61,7 +60,6 @@ then
             if (item.state == ON) IsG1On = true
         }
     ]
-    logInfo("Dimmer", "Starting Brightness = "+Brightness_G1+" IsOn="+IsG1On.toString)
 
     // Get Brightness and On/Off-State of Group 2
     gLampsG2.members.forEach[ item | 	
@@ -72,8 +70,6 @@ then
             if (item.state == ON) IsG2On = true
         }
     ]
-    logInfo("Dimmer", "Starting Brightness = "+Brightness_G2+" IsOn="+IsG2On.toString)
-
 
     switch (TradfriStry1.state) {
         case "": { }
@@ -122,17 +118,10 @@ then
             var Bright1 = (Brightness_G1 as Number)
             var Bright2 = (Brightness_G2 as Number)
             while (TradfriStry1.state=="brightness_move_up") {
-                if (IsG1On) {
+                if (IsG1On) {   // Set Group 1 if ON
                     Bright1 = Bright1 + StepSize
                     if (Bright1 > 100) { Bright1 = 100 }
-                }
-                if (IsG2On) {
-                    Bright2 = Bright2 + StepSize
-                    if (Bright2 > 100) { Bright2 = 100 }
-                }
-                logInfo("Dimmer", "Increasing Brightness = "+Bright1+" / "+Bright2)
 
-                if (IsG1On) {   // Set Group 1 if ON
                     gLampsG1.members.forEach[ item |
                         if (item instanceof DimmerItem) {
                             item.sendCommand(Bright1)
@@ -142,6 +131,9 @@ then
                     ]
                 }
                 if (IsG2On) {   // Set Group 2 if ON
+                    Bright2 = Bright2 + StepSize
+                    if (Bright2 > 100) { Bright2 = 100 }
+
                     gLampsG2.members.forEach[ item |
                         if (item instanceof DimmerItem) {
                             item.sendCommand(Bright2)
@@ -160,17 +152,10 @@ then
             var Bright1 = (Brightness_G1 as Number)
             var Bright2 = (Brightness_G2 as Number)
             while (TradfriStry1.state=="brightness_move_down") {
-                if (IsG1On) {
+                if (IsG1On) {   // Set Group 1 if ON
                     Bright1 = Bright1 - StepSize
                     if (Bright1 < MinBrightness) { Bright1 = MinBrightness }
-                }
-                if (IsG2On) {
-                    Bright2 = Bright2 - StepSize
-                    if (Bright2 < MinBrightness) { Bright2 = MinBrightness }
-                }
-                logInfo("Dimmer", "Decreasing Brightness = "+Bright1+" / "+Bright2)
 
-                if (IsG1On) {   // Set Group 1 if ON
                     gLampsG1.members.forEach[ item |
                         if (item instanceof DimmerItem) {
                             item.sendCommand(Bright1)
@@ -180,6 +165,9 @@ then
                     ]
                 }
                 if (IsG2On) {   // Set Group 2 if ON
+                    Bright2 = Bright2 - StepSize
+                    if (Bright2 < MinBrightness) { Bright2 = MinBrightness }
+
                     gLampsG2.members.forEach[ item |
                         if (item instanceof DimmerItem) {
                             item.sendCommand(Bright2)
