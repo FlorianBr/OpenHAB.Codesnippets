@@ -1,0 +1,11 @@
+
+Thing topic Anycubic "Anycubic 3D Drucker" {
+Channels:
+    Type string     : ServerState "Server State"            [ stateTopic="Anycubic_I3/moonraker/status", transformationPattern="JSONPATH:$.server"  ]
+    Type number     : TempExtI  "Temp Extruder Ist"         [ stateTopic="Anycubic_I3/klipper/status", transformationPattern="JSONPATH:$.status.extruder.temperature" ]
+    Type number     : TempExtS  "Temp Extruder Soll"        [ stateTopic="Anycubic_I3/klipper/status", transformationPattern="JSONPATH:$.status.extruder.target" ]
+    Type number     : TempBedI  "Temp Bed Ist"              [ stateTopic="Anycubic_I3/klipper/status", transformationPattern="JSONPATH:$.status.heater_bed.temperature" ]
+    Type number     : TempBedS  "Temp Bes Soll"             [ stateTopic="Anycubic_I3/klipper/status", transformationPattern="JSONPATH:$.status.heater_bed.target" ]
+    Type number     : Progress "Progress"                   [ stateTopic="Anycubic_I3/klipper/status", transformationPattern="JSONPATH:$.status.virtual_sdcard.progress" ]
+    Type string     : File "File"                           [ stateTopic="Anycubic_I3/klipper/status", transformationPattern="JSONPATH:$.status.print_stats.filename" ]
+}

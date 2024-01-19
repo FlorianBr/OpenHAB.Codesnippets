@@ -1,0 +1,9 @@
+Group gAnycubic (gKammer2) ["Equipment"]
+
+String Anycubic_State  "Connection State: [%s]"                             (gAnycubic)             ["Status"]                     { channel="mqtt:topic:mosquitto:Anycubic:ServerState" }
+Number Anycubic_TExt_I	"Temperatur Ext Ist [%.1f°C]"   <temperature>	    (gAnycubic,gStoreData)	["Measurement","Temperature"]  { channel="mqtt:topic:mosquitto:Anycubic:TempExtI "}
+Number Anycubic_TExt_S	"Temperatur Ext Soll [%.1f°C]"  <temperature>	    (gAnycubic,gStoreData)	["Setpoint","Temperature"]     { channel="mqtt:topic:mosquitto:Anycubic:TempExtS "}
+Number Anycubic_TBed_I	"Temperatur Bed Ist [%.1f°C]"   <temperature>	    (gAnycubic,gStoreData)	["Measurement","Temperature"]  { channel="mqtt:topic:mosquitto:Anycubic:TempBedI "}
+Number Anycubic_TBed_S	"Temperatur Bed Soll [%.1f°C]"  <temperature>	    (gAnycubic,gStoreData)	["Setpoint","Temperature"]     { channel="mqtt:topic:mosquitto:Anycubic:TempBedS "}
+String Anycubic_File	"Print-File"                            	        (gAnycubic)	            ["Measurement"]                { channel="mqtt:topic:mosquitto:Anycubic:File "}
+Number Anycubic_Progress "Progress"                                         (gAnycubic)	            ["Measurement"]                { channel="mqtt:topic:mosquitto:Anycubic:Progress "}

@@ -2,10 +2,13 @@
 
 My Code-Snippets for OpenHAB. Free to use and modify for everyone.
 
+## Anycubic
+
+Stuff for integration of my Anycubic 3D Printer. Or to be exact: To integrate Klipper/Mainsail
 ## Aqara
 
 I use a lot of Aqara devices in my setup. Environmental sensors, switches, the cube... They are connected using [Zigbee2Mqtt](https://www.zigbee2mqtt.io) but often need some rules. Most of all: The state must be reset, otherwise the script wont be triggered on a new event.
-Besides that, the doorswitches return true/false instead of open/close, 
+Besides that, the doorswitches return true/false instead of open/close,
 
 ## Denon-AVR
 
